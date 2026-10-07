@@ -15,12 +15,12 @@ router.post("/register", async (req, res) => {
     }
 
     const existingUser = await User.findOne({
-      where: { email },
+      where: { username },
     });
 
     if (existingUser) {
       return res.status(400).json({
-        message: "Email already exists",
+        message: "Username already exists",
       });
     }
 
@@ -46,33 +46,33 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    if (!email || !password) {
+    if (!username || !password) {
       return res.status(400).json({
-        message: "Email and password are required",
+        message: "Username and password are required",
       });
     }
 
     const user = await User.findOne({
-      where: { email },
+      where: { username },
     });
 
     if (!user) {
       return res.status(400).json({
-        message: "Invalid email or password",
+        message: "Invalid username or password",
       });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
       return res.status(400).json({
-        message: "Invalid email or password",
+        message: "Invalid username or password",
       });
     }
 
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: user.id, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );

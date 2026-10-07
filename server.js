@@ -6,12 +6,12 @@ const sequelize = require("./config/database");
 require("./models/User");
 
 const app = express();
-
+const travelRoutes = require("./routes/travelroutes");
 const authRoutes = require("./routes/auth");
 
 app.use(cors());
 app.use(express.json());
-
+app.use("/api/travel", travelRoutes);
 app.use("/api/auth", authRoutes);
 console.log(
   "AUTH ROUTES:",
