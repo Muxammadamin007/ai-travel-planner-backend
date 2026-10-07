@@ -39,5 +39,5 @@ sequelize
     });
   })
   .catch((error) => {
-    console.error("Database error:", error.message);
+    console.error("DATABASE ERROR:", error);
   });
